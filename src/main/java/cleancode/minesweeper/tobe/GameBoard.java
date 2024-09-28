@@ -1,5 +1,7 @@
 package cleancode.minesweeper.tobe;
 
+import cleancode.minesweeper.tobe.level.GameLevel;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -8,12 +10,12 @@ public class GameBoard {
     public static final int LAND_MINE_COUNT = 10;
 
     private final Cell[][] board;
+    private final int landMineCount;
 
-    public GameBoard(int boardRowSize, int boardColSize) {
-        //보드가 하는 일이 너무 많아서 따로 빼줄 거임
-        board = new Cell[boardRowSize][boardColSize];
+    public GameBoard(GameLevel gameLevel){
+        board = new Cell[gameLevel.getRowSize()][gameLevel.getColSize()];
+        landMineCount = gameLevel.getLandMineCount();
     }
-
     public int getColSize() {
         return board[0].length;
     }
