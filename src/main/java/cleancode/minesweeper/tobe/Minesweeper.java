@@ -5,7 +5,7 @@ import cleancode.minesweeper.tobe.io.ConsoleOutputHandler;
 import cleancode.minesweeper.tobe.level.GameLevel;
 
 
-public class Minesweeper {
+public class Minesweeper implements GameInitialization, GameRunning {
 
     private final GameBoard gameBoard;
     private static int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
@@ -17,9 +17,14 @@ public class Minesweeper {
        gameBoard = new GameBoard(gameLevel);
     }
 
+    @Override
+    public void initialize() {
+        gameBoard.initializeGame();
+    }
+
+    @Override
     public void run() {
         consoleOutputHandler.showGameStarted();
-        gameBoard.initializeGame();
 
         while (true) {
             try {
@@ -110,5 +115,6 @@ public class Minesweeper {
         consoleOutputHandler.printCommentForUserActionInput();
         return consoleInputHandler.getUserInput();
     }
+
 
 }
