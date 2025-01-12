@@ -10,8 +10,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudyCafeFileHandler {
+    public StudyCafeLockerPass getLockerPass(StudyCafePass selectedPass) {
+        List<StudyCafeLockerPass> lockerPasses = readLockerPasses();
+        return lockerPasses.stream()
+                .filter(option ->
+                        option.getPassType() == selectedPass.getPassType()
+                                && option.getDuration() == selectedPass.getDuration()
+                )
+                .findFirst()
+                .orElse(null);
+    }
 
-    public List<StudyCafePass> readStudyCafePasses() {
+    public List<StudyCafePass> getHourlyPasses() {
+        List<StudyCafePass> studyCafePasses = readStudyCafePasses();
+        return studyCafePasses.stream()
+                .filter(studyCafePass -> studyCafePass.getPassType() == StudyCafePassType.HOURLY)
+                .toList();
+    }
+
+    public List<StudyCafePass> getWeeklyPasses() {
+        List<StudyCafePass> studyCafePasses = readStudyCafePasses();
+        return studyCafePasses.stream()
+                .filter(studyCafePass -> studyCafePass.getPassType() == StudyCafePassType.WEEKLY)
+                .toList();
+    }
+
+    public List<StudyCafePass> getFixedPasses() {
+        List<StudyCafePass> studyCafePasses = readStudyCafePasses();
+        return studyCafePasses.stream()
+                .filter(studyCafePass -> studyCafePass.getPassType() == StudyCafePassType.FIXED)
+                .toList();
+    }
+
+    private List<StudyCafePass> readStudyCafePasses() {
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/resources/cleancode/studycafe/pass-list.csv"));
             List<StudyCafePass> studyCafePasses = new ArrayList<>();
@@ -51,5 +82,6 @@ public class StudyCafeFileHandler {
             throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
         }
     }
+
 
 }
